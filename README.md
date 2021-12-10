@@ -8,10 +8,10 @@
 
  **DEMONSTRATORS FOR MIDI OUT**
 
- The manager_main example below is probably the simplest example for testing newly implemented output drivers
+ The manager_main example is probably the simplest example for testing newly implemented output drivers
  The test_component example has been shown to play single notes in another implementation of the nimBLE output driver
 
- Both examples (as implemented here) lead to a compilation error. See below.  What is missing?
+ Both examples (as implemented here) lead to a compilation error. See comments in main.cpp.  What is missing?
 
  **DEMONSTRATORS FOR MIDI IN**
 
@@ -23,6 +23,7 @@
  **DEMONSTRATORS OF DIRECT CALLS TO RtMidi from the RtMidi docs** (https://www.music.mcgill.ca/~gary/rtmidi/)
 
        ~~TO BE IMPLEMENTED~~   
+       
  - nameless example default object construction and destruction:  
  - midiprobe.cpp    probing of ports    
  - midiout.cpp        
