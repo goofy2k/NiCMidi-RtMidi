@@ -15,6 +15,11 @@
 *
 *       **TO BE IMPLEMENTED ** 
 *
+*
+* DEMONSTRATORS OF DIRECT CALLS TO RtMidi from the RtMidi docs (https://www.music.mcgill.ca/~gary/rtmidi/)
+*
+*       **TO BE IMPLEMENTED ** 
+*
 **************************************************************************************************************************************/
 
 
