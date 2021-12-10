@@ -2,9 +2,9 @@
  Keep NiCMidi clean. Adapt only low-level RtMidi class
  
  
- /*************************************************************************************************************************************
+/***************************************************************************************************************************
 *
-* A number of very basic examples from the NiCMidi lib (see main.cpp)
+* A number of very basic examples from the NiCMidi lib
 *
 * DEMONSTRATORS FOR MIDI OUT
 *
@@ -19,4 +19,15 @@
 *
 *       **TO BE IMPLEMENTED ** 
 *
-**************************************************************************************************************************************/
+*
+* DEMONSTRATORS OF DIRECT CALLS TO RtMidi from the RtMidi docs (https://www.music.mcgill.ca/~gary/rtmidi/)
+*
+*       **TO BE IMPLEMENTED ** 
+* - nameless example default object construction and destruction:
+* - midiprobe.cpp    probing of ports
+*  -midiout.cpp      
+*  -qumidiin.cpp     input via queue via polling
+*  -cmidiin.cpp      input via callback called when complete message received 
+*
+*  
+****************************************************************************************************************************/
