@@ -28,15 +28,33 @@
 *  
 **************************************************************************************************************************************/
 
+//SELECT NiCMidi examples here:
+#define MSG_MAIN                          //RESULT:
+//#define MANAGER_EXAMPLE                 //RUNTIME ERROR: 0x400d63bd: MIDIManager::GetOutDriver(unsigned int) at c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi/src/manager.cpp:119
+//#define TEST_COMPONENT                  //RUNTIME ERROR: 0x400d63bd: MIDIManager::GetOutDriver(unsigned int) at c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi/src/manager.cpp:119
 
+//#ifdef TEST_THRU                        //NOT YET IMPLEMENTED
+//#ifdef TEST_METRONOME                   //NOT YET IMPLEMENTED
+
+//SELECT RtMidi examples here:
+#define BASIC_MAIN                        //RESULT:
+#define PROBING_PORTS                     //RESULT:
+#define MIDI_OUTPUT_MAIN                  //RESULT:
+//#define QUEUED_MIDI_INPUT_MAIN          //COMPILATION ERROR: main.cpp:450: undefined reference to `signal'
+#define MIDI_INPUT_USER_CALLBACK_MAIN     //RESULT:
+
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "esp_log.h"
     //THE STRUGGLE WITH CMakeLists paths....
     //#include "msg.h"
     //#include "../include/msg.h"
     
-    #include "../components/NiCMidi_Rt/include/msg.h" //OK
+    #include "../components/NiCMidi/include/msg.h" //OK
+        #include "../components/NiCMidi/rtmidi-4.0.0/RtMidi.h" //OK
     #include <iostream> // for std::cout << msg1.MsgToText()
-    #include "../components/NiCMidi_Rt/include/manager.h" //OK  
+    #include "../components/NiCMidi/include/manager.h" //OK  
     // #include "msg.h"
     //#include "include/msg.h"  //OK
     //#include "msg.h"  //OK
@@ -47,10 +65,10 @@ extern "C" {           //FCKX
 
 
 /*************************************************************************************************************************************************
-* example taken from: https://ncassetta.github.io/NiCMidi/docs/html/_m_e_s_s__t_r_a_c_k__m_u_l_t_i.html
+* Examples taken from: https://ncassetta.github.io/NiCMidi/docs/html/_m_e_s_s__t_r_a_c_k__m_u_l_t_i.html and the NiCMidi repo examples
 **************************************************************************************************************************************************/
 
-//#define MSG_MAIN
+
 #ifdef MSG_MAIN 
 int msg_main() {
    MIDIMessage msg1, msg2, msg3;     // creates three empty MIDIMessage objects
@@ -68,7 +86,6 @@ int msg_main() {
 }
 #endif //MSG_MAIN
 
-//#define MANAGER_EXAMPLE
 #ifdef MANAGER_EXAMPLE  //block because of compilation errors
 /*************************************************************************************************************************************************
 * example taken from: https://ncassetta.github.io/NiCMidi/docs/html/_m_e_s_s__t_r_a_c_k__m_u_l_t_i.html
@@ -99,7 +116,6 @@ int manager_main() {
 }
 #endif
 
-//#define TEST_COMPONENT
 #ifdef TEST_COMPONENT
 // compilation error: ../components/NiCMidi_Rt/src/driver.cpp:250: undefined reference to 
 //`RtMidiIn::RtMidiIn(RtMidi::Api, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int)'
@@ -258,6 +274,251 @@ int component_main() {
 #endif   
 
 
+
+/*************************************************************************************************************************************************
+* Examples taken from the RtMidi tutorial : https://www.music.mcgill.ca/~gary/rtmidi/
+**************************************************************************************************************************************************/
+
+#ifdef BASIC_MAIN
+// The following code example demonstrates default object construction and destruction:
+//#include "RtMidi.h"
+int basic_main() {
+  try {
+    RtMidiIn midiin;
+  } catch (RtMidiError &error) {
+    // Handle the exception here
+    error.printMessage();
+  }
+  return 0;
+}
+#endif
+
+#ifdef PROBING_PORTS
+//Probing Ports / Devices
+//A client generally must query the available MIDI ports before deciding which to use. The following example outlines how this can be done.
+
+// midiprobe.cpp
+//#include <iostream>
+#include <cstdlib>
+//#include "RtMidi.h"
+int probing_ports_main()
+{
+  RtMidiIn  *midiin = 0;
+  RtMidiOut *midiout = 0;
+  // RtMidiIn constructor
+  try {
+    midiin = new RtMidiIn();
+  }
+  catch ( RtMidiError &error ) {
+    error.printMessage();
+    exit( EXIT_FAILURE );
+  }
+  // Check inputs.
+  unsigned int nPorts = midiin->getPortCount();
+  std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
+  std::string portName;
+  for ( unsigned int i=0; i<nPorts; i++ ) {
+    try {
+      portName = midiin->getPortName(i);
+    }
+    catch ( RtMidiError &error ) {
+      error.printMessage();
+      goto cleanup;
+    }
+    std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
+  }
+  // RtMidiOut constructor
+  try {
+    midiout = new RtMidiOut();
+  }
+  catch ( RtMidiError &error ) {
+    error.printMessage();
+    exit( EXIT_FAILURE );
+  }
+  // Check outputs.
+  nPorts = midiout->getPortCount();
+  std::cout << "\nThere are " << nPorts << " MIDI output ports available.\n";
+  for ( unsigned int i=0; i<nPorts; i++ ) {
+    try {
+      portName = midiout->getPortName(i);
+    }
+    catch (RtMidiError &error) {
+      error.printMessage();
+      goto cleanup;
+    }
+    std::cout << "  Output Port #" << i+1 << ": " << portName << '\n';
+  }
+  std::cout << '\n';
+  // Clean up
+ cleanup:
+  delete midiin;
+  delete midiout;
+  return 0;
+}
+
+#endif
+
+#ifdef MIDI_OUTPUT_MAIN
+/*
+MIDI Output
+The RtMidiOut class provides simple functionality to immediately send messages over a MIDI connection. No timing functionality is provided. Note that there is an overloaded RtMidiOut::sendMessage() function that does not use std::vectors.
+
+In the following example, we omit necessary error checking and details regarding OS-dependent sleep functions. For a complete example, see the midiout.cpp program in the tests directory.
+*/
+
+// midiout.cpp
+//#include <iostream>
+//#include <cstdlib>
+//#include "RtMidi.h"
+int midi_output_main()
+{
+  RtMidiOut *midiout = new RtMidiOut();
+  std::vector<unsigned char> message;
+  // Check available ports.
+  unsigned int nPorts = midiout->getPortCount();
+  if ( nPorts == 0 ) {
+    std::cout << "No ports available!\n";
+    goto cleanup;
+  }
+  // Open first available port.
+  midiout->openPort( 0 );
+  // Send out a series of MIDI messages.
+  // Program change: 192, 5
+  message.push_back( 192 );
+  message.push_back( 5 );
+  midiout->sendMessage( &message );
+  // Control Change: 176, 7, 100 (volume)
+  message[0] = 176;
+  message[1] = 7;
+  message.push_back( 100 );
+  midiout->sendMessage( &message );
+  // Note On: 144, 64, 90
+  message[0] = 144;
+  message[1] = 64;
+  message[2] = 90;
+  midiout->sendMessage( &message );
+  //SLEEP( 500 ); // Platform-dependent ... see example in tests directory.
+  vTaskDelay(10 / portTICK_PERIOD_MS);
+  // Note Off: 128, 64, 40
+  message[0] = 128;
+  message[1] = 64;
+  message[2] = 40;
+  midiout->sendMessage( &message );
+  // Clean up
+ cleanup:
+  delete midiout;
+  return 0;
+}
+#endif 
+
+#ifdef QUEUED_MIDI_INPUT_MAIN
+/*
+MIDI Input
+The RtMidiIn class uses an internal callback function or thread to receive incoming MIDI messages from a port or device. These messages are then either queued and read by the user via calls to the RtMidiIn::getMessage() function or immediately passed to a user-specified callback function (which must be "registered" using the RtMidiIn::setCallback() function). Note that if you have multiple instances of RtMidiIn, each may have its own thread. We'll provide examples of both usages.
+
+The RtMidiIn class provides the RtMidiIn::ignoreTypes() function to specify that certain MIDI message types be ignored. By default, system exclusive, timing, and active sensing messages are ignored.
+
+Queued MIDI Input
+The RtMidiIn::getMessage() function does not block. If a MIDI message is available in the queue, it is copied to the user-provided std::vector<unsigned char> container. When no MIDI message is available, the function returns an empty container. The default maximum MIDI queue size is 1024 messages. This value may be modified with the RtMidiIn::setQueueSizeLimit() function. If the maximum queue size limit is reached, subsequent incoming MIDI messages are discarded until the queue size is reduced.
+
+In the following example, we omit some necessary error checking and details regarding OS-dependent sleep functions. For a more complete example, see the qmidiin.cpp program in the tests directory.
+*/
+
+// qmidiin.cpp
+//#include <iostream>
+//#include <cstdlib>
+#include <signal.h>
+//#include "RtMidi.h"
+bool done;
+static void finish(int ignore){ done = true; }
+int queued_midi_input_main()
+{
+  RtMidiIn *midiin = new RtMidiIn();
+  std::vector<unsigned char> message;
+  int nBytes, i;
+  double stamp;
+  // Check available ports.
+  unsigned int nPorts = midiin->getPortCount();
+  if ( nPorts == 0 ) {
+    std::cout << "No ports available!\n";
+    goto cleanup;
+  }
+  midiin->openPort( 0 );
+  // Don't ignore sysex, timing, or active sensing messages.
+  midiin->ignoreTypes( false, false, false );
+  // Install an interrupt handler function.
+  done = false;
+  (void) signal(SIGINT, finish);
+  // Periodically check input queue.
+  std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
+  while ( !done ) {
+    stamp = midiin->getMessage( &message );
+    nBytes = message.size();
+    for ( i=0; i<nBytes; i++ )
+      std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+    if ( nBytes > 0 )
+      std::cout << "stamp = " << stamp << std::endl;
+    // Sleep for 10 milliseconds ... platform-dependent.
+    //SLEEP( 10 );
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+  }
+  // Clean up
+ cleanup:
+  delete midiin;
+  return 0;
+}
+
+#endif
+
+
+#ifdef MIDI_INPUT_USER_CALLBACK_MAIN
+
+/*
+MIDI Input with User Callback
+When set, a user-provided callback function will be invoked after the input of a complete MIDI message. It is possible to provide a pointer to user data that can be accessed in the callback function (not shown here). It is necessary to set the callback function immediately after opening the port to avoid having incoming messages written to the queue (which is not emptied when a callback function is set). If you are worried about this happening, you can check the queue using the RtMidi::getMessage() function to verify it is empty (after the callback function is set).
+
+In the following example, we omit some necessary error checking. For a more complete example, see the cmidiin.cpp program in the tests directory.
+*/
+// cmidiin.cpp
+//#include <iostream>
+//#include <cstdlib>
+//#include "RtMidi.h"
+void mycallback( double deltatime, std::vector< unsigned char > *message, void *userData )
+{
+  unsigned int nBytes = message->size();
+  for ( unsigned int i=0; i<nBytes; i++ )
+    std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
+  if ( nBytes > 0 )
+    std::cout << "stamp = " << deltatime << std::endl;
+}
+int midi_input_user_callback_main()
+{
+  RtMidiIn *midiin = new RtMidiIn();
+  // Check available ports.
+  unsigned int nPorts = midiin->getPortCount();
+  if ( nPorts == 0 ) {
+    std::cout << "No ports available!\n";
+    goto cleanup;
+  }
+  midiin->openPort( 0 );
+  // Set our callback function.  This should be done immediately after
+  // opening the port to avoid having incoming messages written to the
+  // queue.
+  midiin->setCallback( &mycallback );
+  // Don't ignore sysex, timing, or active sensing messages.
+  midiin->ignoreTypes( false, false, false );
+  std::cout << "\nReading MIDI input ... press <enter> to quit.\n";
+  char input;
+  std::cin.get(input);
+  // Clean up
+ cleanup:
+  delete midiin;
+  return 0;
+}
+
+#endif
+
+
 void app_main(void){
     
     int result;    
@@ -285,6 +546,35 @@ void app_main(void){
     #ifdef TEST_METRONOME
 
     #endif    
+
+
+    #ifdef BASIC_MAIN
+    result = basic_main();
+    ESP_LOGI(TAG,"RtMidi basic_main result %d",result);
+    #endif
+
+
+    #ifdef PROBING_PORTS
+    result = probing_ports_main();
+    ESP_LOGI(TAG,"RtMidi probing_ports result %d",result);
+    #endif
+    
+    #ifdef MIDI_OUTPUT_MAIN
+    result = midi_output_main();
+    ESP_LOGI(TAG,"RtMidi midi_output_main result %d",result);
+    #endif
+    
+    #ifdef QUEUED_MIDI_INPUT_MAIN
+    result = queued_midi_input_main();
+    ESP_LOGI(TAG,"RtMidi queued_midi_input_main result %d",result);    
+    #endif
+    
+    #ifdef MIDI_INPUT_USER_CALLBACK_MAIN
+    result = midi_input_user_callback_main();
+    ESP_LOGI(TAG,"RtMidi midi_input_user_callback_main %d",result);    
+    #endif
+    
+    
 
     ESP_LOGI(TAG,"reached end of code");
 

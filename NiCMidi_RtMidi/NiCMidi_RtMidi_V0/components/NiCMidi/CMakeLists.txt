@@ -37,12 +37,14 @@ idf_component_register( SRCS
 				"./src/tick.cpp"
                                 "./src/timer.cpp"
 				"./src/track.cpp"
-                                "./examples/test_component.cpp"
+                             #   "./examples/test_component.cpp" #this line works, but leads to double definition of some object
+                                "./src/RtMidi.cpp"
+
 #SYSTEM COMPLAINS THAT IT CANNOT C:/Users/Fred/esp_projects/MIDI-sequencer/fckx_sequencer_v06b_NEW_OK_NiCMidi_msg_track/components/NiCMidi/msg.cpp , but it is in src!
                        INCLUDE_DIRS 
 				"./src" 
 				"./include" 
-				#"./rtmidi-4.0.0"
+				"./rtmidi-4.0.0"
                       #REQUIRES rtmidi-4.0.0
 #YOU MAY HAVE TO ADD REQUIRES RtMidi etc or an equivalent
 )
