@@ -43,6 +43,40 @@
 //#define QUEUED_MIDI_INPUT_MAIN          //COMPILATION ERROR: main.cpp:450: undefined reference to `signal'
 #define MIDI_INPUT_USER_CALLBACK_MAIN     //RESULT:
 
+/* RESULTS Output of each example is above the corresponding log output with TAG APP_MAIN
+
+MidiInDummy: This class provides no functionality.
+
+I (404) APP_MAIN: RtMidi basic_main result 0
+
+MidiInDummy: This class provides no functionality.
+
+
+There are 0 MIDI input sources available.
+
+MidiOutDummy: This class provides no functionality.
+
+
+There are 0 MIDI output ports available.
+
+I (434) APP_MAIN: RtMidi probing_ports result 0
+
+MidiOutDummy: This class provides no functionality.
+
+No ports available!
+I (444) APP_MAIN: RtMidi midi_output_main result 0
+
+MidiInDummy: This class provides no functionality.
+
+No ports available!
+I (454) APP_MAIN: RtMidi midi_input_user_callback_main 0
+I (464) APP_MAIN: reached end of code
+
+*/
+
+
+
+
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
