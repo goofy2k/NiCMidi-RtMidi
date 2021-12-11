@@ -32,6 +32,13 @@
 #define MSG_MAIN                          //RESULT:
 //#define MANAGER_EXAMPLE                 //RUNTIME ERROR: 0x400d63bd: MIDIManager::GetOutDriver(unsigned int) at c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi/src/manager.cpp:119
 //#define TEST_COMPONENT                  //RUNTIME ERROR: 0x400d63bd: MIDIManager::GetOutDriver(unsigned int) at c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi/src/manager.cpp:119
+/*
+MIDIOutDriver* MIDIManager::GetOutDriver(unsigned int n) {
+    if (!init)
+        Init();
+    return (*MIDI_outs)[n];
+}  //this is manager.cpp 119
+*/
 
 //#ifdef TEST_THRU                        //NOT YET IMPLEMENTED
 //#ifdef TEST_METRONOME                   //NOT YET IMPLEMENTED
@@ -40,7 +47,9 @@
 #define BASIC_MAIN                        //RESULT:
 #define PROBING_PORTS                     //RESULT:
 #define MIDI_OUTPUT_MAIN                  //RESULT:
-//#define QUEUED_MIDI_INPUT_MAIN          //COMPILATION ERROR: main.cpp:450: undefined reference to `signal'
+//#define QUEUED_MIDI_INPUT_MAIN          //COMPILATION ERROR: main.cpp:450: undefined reference to `signal'    (void) signal(SIGINT, finish);
+                                          //the signal library can not be used with esp-idf
+                                          //is there another way to perform such a test?
 #define MIDI_INPUT_USER_CALLBACK_MAIN     //RESULT:
 
 /* RESULTS Output of each example is above the corresponding log output with TAG APP_MAIN
