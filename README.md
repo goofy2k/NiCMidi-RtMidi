@@ -3,10 +3,10 @@
  
  
 
-
+## Basic demonstrators / tests
  A number of very basic examples from the NiCMidi lib
 
- **NiCMidi DEMONSTRATORS (MIDI OUT and IN)**
+### NiCMidi DEMONSTRATORS (MIDI OUT and IN)
 
 The manager_main example is probably the simplest example for testing newly implemented output drivers
 The test_component example has been shown to play single notes in another implementation of the nimBLE output driver
@@ -30,11 +30,9 @@ These compilation errors should be solved before the underlying calls to RtMidi 
 To be implemented:
 
 - test_thru
-- test_metronome
+- test_metronome  
 
-
-   
-**RtMidi DEMONSTRATORS (from the RtMidi docs)** (https://www.music.mcgill.ca/~gary/rtmidi/)  
+ ### RtMidi DEMONSTRATORS (from the RtMidi docs)** (https://www.music.mcgill.ca/~gary/rtmidi/)  
 
 These examples demostrate direct calls to RtMidi. 
  
