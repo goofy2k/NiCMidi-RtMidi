@@ -6,14 +6,12 @@
 
  A number of very basic examples from the NiCMidi lib
 
- **DEMONSTRATORS FOR NicMidi MIDI OUT**
+ **DEMONSTRATORS FOR NicMidi MIDI (OUT and IN)**
 
 The manager_main example is probably the simplest example for testing newly implemented output drivers
 The test_component example has been shown to play single notes in another implementation of the nimBLE output driver
 
 Both examples (as implemented here) lead to a compilation error. See comments in main.cpp.  What is missing?
-
-**DEMONSTRATORS FOR NicMidi MIDI IN**
 
 The thru or metronome examples are probably the the most suited for this goal.
 
@@ -26,7 +24,6 @@ Implemented in V00:
     esp-idf/NiCMidi_Rt/libNiCMidi_Rt.a(driver.cpp.obj): in function `MIDIInDriver::MIDIInDriver(int, unsigned int)':
     c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi_Rt/src/driver.cpp:250: 
     undefined reference to `RtMidiIn::RtMidiIn(RtMidi::Api, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int)'
-
 
 To be implemented:
 
