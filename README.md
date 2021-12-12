@@ -49,7 +49,7 @@ Implemented in V00:
  
  ### Next steps
  
- #### Implement drivers in RtMidi for nimBLE output and MQTT input. 
+ - #### Implement drivers in RtMidi for nimBLE output and MQTT input. 
  
  To this end the RtMidi.cpp/.h files will be adapted.  
        
