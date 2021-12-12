@@ -20,7 +20,7 @@
        ~~TO BE IMPLEMENTED~~ 
 
 
- **DEMONSTRATORS (from the RtMidi docs) OF DIRECT CALLS TO RtMidi ** (https://www.music.mcgill.ca/~gary/rtmidi/)
+ **DEMONSTRATORS (from the RtMidi docs) OF DIRECT CALLS TO RtMidi** (https://www.music.mcgill.ca/~gary/rtmidi/)  
 
        ~~TO BE IMPLEMENTED~~   
        
