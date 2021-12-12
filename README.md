@@ -51,7 +51,8 @@ Implemented in V00:
  
  - #### Implement drivers in RtMidi for nimBLE output and MQTT input. 
  
- To this end the RtMidi.cpp/.h files will be adapted.  
+ To this end the RtMidi.cpp/.h files will be adapted. 
+ It is probably wise to create separate nimBLEMidi and MQTTMidi drivers with, for the time being, only a MidiOut implemented for nimBLE and MidiIn implemented for MQTT.
        
   - #### Run / debug the NicMidi examples using the new RtMidi   
    
