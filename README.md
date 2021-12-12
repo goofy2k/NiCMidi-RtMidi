@@ -53,7 +53,7 @@ Implemented in V00:
  
  To this end the RtMidi.cpp/.h files will be adapted.  
        
-   
+  - #### Run / debug the NicMidi examples using the new RtMidi   
    
         
   
