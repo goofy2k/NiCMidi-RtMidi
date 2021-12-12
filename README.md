@@ -39,11 +39,19 @@ These examples demostrate direct calls to RtMidi.
  
 Implemented in V00: 
 
-- basic_main                       (nameless example default object construction and destruction)
-- probing_ports                    (midiprobe.cpp    probing of ports)
-- midi_output_main                 (midiout.cpp)
+- basic_main                       (nameless example default object construction and destruction)  OK
+- probing_ports                    (midiprobe.cpp    probing of ports)                             OK, but does not find ports
+- midi_output_main                 (midiout.cpp)                                                   OK, but does not find ports
 - queued_midi_input_main           (qumidiin.cpp     input via queue via polling)   Compilation error: the signal lib cannot be used under esp-idf. An alternative test must be found.
 - midi_input_user_callback_main    (cmidiin.cpp      input via callback called when complete message received)
+ 
+ All well compiling RtMidi examples report: 'MidiInDummy: This class provides no functionality.'
+ 
+ ### Next steps
+ 
+ #### Implement drivers in RtMidi for nimBLE output and MQTT input. 
+ 
+ To this end the RtMidi.cpp/.h files will be adapted.  
        
    
    
