@@ -13,7 +13,7 @@ The test_component example has been shown to play single notes in another implem
 
 Both examples (as implemented here) lead to a compilation error. See comments in main.cpp.  What is missing?
 
- **DEMONSTRATORS FOR NicMidi MIDI IN**
+**DEMONSTRATORS FOR NicMidi MIDI IN**
 
 The thru or metronome examples are probably the the most suited for this goal.
 
@@ -21,14 +21,12 @@ The thru or metronome examples are probably the the most suited for this goal.
 - manager_example  
 - test_compontent  
 
-    'esp-idf/NiCMidi_Rt/libNiCMidi_Rt.a(driver.cpp.obj): in function `MIDIInDriver::MIDIInDriver(int, unsigned int)':
+    esp-idf/NiCMidi_Rt/libNiCMidi_Rt.a(driver.cpp.obj): in function `MIDIInDriver::MIDIInDriver(int, unsigned int)':
     c:\users\fred\esp_projects\nicmidi-rtmidi\nicmidi_rtmidi\nicmidi_rtmidi_v0\build/../components/NiCMidi_Rt/src/driver.cpp:250: 
     undefined reference to `RtMidiIn::RtMidiIn(RtMidi::Api, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int)'
 
    
-
-
- **DEMONSTRATORS (from the RtMidi docs) OF DIRECT CALLS TO RtMidi** (https://www.music.mcgill.ca/~gary/rtmidi/)  
+**DEMONSTRATORS (from the RtMidi docs) OF DIRECT CALLS TO RtMidi** (https://www.music.mcgill.ca/~gary/rtmidi/)  
 
 Implemented in V00: 
 
