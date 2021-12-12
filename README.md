@@ -1,10 +1,11 @@
 # NiCMidi RtMidi
- Keep NiCMidi clean. Adapt only low-level RtMidi class
+Keep NiCMidi clean. Adapt only low-level RtMidi class
  
  
 
 ## Basic demonstrators / tests
- A number of very basic examples from the NiCMidi lib
+
+A number of very basic examples from the NiCMidi lib
 
 ### NiCMidi DEMONSTRATORS (MIDI OUT and IN)
 
