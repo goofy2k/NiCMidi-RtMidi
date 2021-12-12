@@ -55,6 +55,8 @@ Implemented in V00:
  It is probably wise to create separate nimBLEMidi and MQTTMidi drivers with, for the time being, only a MidiOut implemented for nimBLE and MidiIn implemented for MQTT.
        
   - #### Run / debug the NicMidi examples using the new RtMidi   
+ 
+ The compilation errors from V00 will probably be solved after proper implementation of the new RtMidi drivers. It may need setting of conditional compilation flags for the new drivers in RtMidi.
    
         
   
