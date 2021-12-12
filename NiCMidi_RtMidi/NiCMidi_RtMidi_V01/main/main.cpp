@@ -27,6 +27,11 @@
 *
 *  
 **************************************************************************************************************************************/
+//main app V01:
+//going to implemement Midi drivers in RtMidi
+//back up the clean RtMidi.h and RtMidi.cpp
+//locate the active files
+//and go...
 
 //SELECT NiCMidi examples here:
 #define MSG_MAIN                          //RESULT:
